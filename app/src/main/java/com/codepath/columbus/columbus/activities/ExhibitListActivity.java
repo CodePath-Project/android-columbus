@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.codepath.columbus.columbus.R;
 import com.codepath.columbus.columbus.fragments.exhibit_list.ExhibitListFragment;
 import com.codepath.columbus.columbus.fragments.exhibit_list.ExhibitListSearchFragment;
+import com.codepath.columbus.columbus.models.Exhibit;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -101,7 +102,7 @@ public class ExhibitListActivity extends SherlockFragmentActivity {
         exhibitListSearchFragment = ExhibitListSearchFragment.newInstance(museumId, query);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
-        ft.replace(R.id.flListContainer, exhibitListSearchFragment);
+        ft.replace(R.id.flListContainer, exhibitListSearchFragment, "SearchFragment");
         ft.addToBackStack(null);
         ft.commit();
     }
@@ -111,6 +112,13 @@ public class ExhibitListActivity extends SherlockFragmentActivity {
         int id = item.getItemId();
         switch (id) {
             case android.R.id.home:
+                ExhibitListSearchFragment exhibitSearchFrag = (ExhibitListSearchFragment)
+                        getSupportFragmentManager().findFragmentByTag("SearchFragment");
+                if(exhibitSearchFrag != null && exhibitSearchFrag.isVisible()) {
+                    Toast.makeText(this, "search showing", Toast.LENGTH_SHORT).show();
+                    getSupportFragmentManager().popBackStack();
+                    return true;
+                }
                 // app icon in action bar clicked; goto parent activity.
                 this.finish();
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);

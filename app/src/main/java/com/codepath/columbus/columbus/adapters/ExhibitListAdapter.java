@@ -68,9 +68,11 @@ public class ExhibitListAdapter extends ArrayAdapter<Exhibit> implements StickyL
         if(exhibit.getDistance() == 0) {
             viewHolder.tvDistance.setVisibility(View.GONE);
         } else {
+            /*
             viewHolder.tvDistance.setVisibility(View.VISIBLE);
             //viewHolder.tvDistance.setText(Double.toString(exhibit.getDistance()) + " m");
             viewHolder.tvDistance.setText("In close proximity");
+            */
         }
 
         return convertView;
@@ -101,6 +103,7 @@ public class ExhibitListAdapter extends ArrayAdapter<Exhibit> implements StickyL
         }
 
         holder.text.setText(headerText);
+        holder.text.setTextSize(18);
         holder.text.setTextColor(Color.parseColor("#ffffff"));
         holder.text.setBackgroundColor(Color.parseColor("#ff7077"));
         return convertView;
@@ -110,7 +113,7 @@ public class ExhibitListAdapter extends ArrayAdapter<Exhibit> implements StickyL
     public long getHeaderId(int position) {
         Exhibit item = exhibitsList.get(position);
         if(item.getDistance() > 0) {
-            Log.d("DEBUG", "exhibit " + item.getName() + " distance = " + item.getDistance());
+            Log.i("INFO", "exhibit " + item.getName() + " distance = " + item.getDistance());
             return 1;
         }
         return 0;
