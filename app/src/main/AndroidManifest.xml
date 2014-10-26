@@ -79,11 +79,6 @@
             android:exported="false"
             android:process=":remote" />
         <service android:name=".services.MusicService" />
-
-        <activity
-            android:name=".activities.SearchActivity"
-            android:label="@string/title_activity_search" >
-        </activity>
     </application>
 
 </manifest>

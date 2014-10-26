@@ -3,7 +3,7 @@
       tools:context="com.codepath.columbus.columbus.activities.ExhibitListActivity" >
   <item android:id="@+id/menu_search_exhibits"
         android:title="Search"
-        android:icon="@drawable/ic_search"
+        android:icon="@drawable/icon_search"
         android:showAsAction="always"
         android:actionViewClass="android.widget.SearchView"/>
 </menu>

@@ -13,8 +13,11 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuInflater;
+
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
+import android.widget.Toast;
 
 import com.codepath.columbus.columbus.R;
 import com.codepath.columbus.columbus.fragments.exhibit_list.ExhibitListFragment;
@@ -32,7 +35,7 @@ public class ExhibitListActivity extends SherlockFragmentActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-      super.attachBaseContext(new CalligraphyContextWrapper(newBase));
+        super.attachBaseContext(new CalligraphyContextWrapper(newBase));
     }
 
 
@@ -52,15 +55,15 @@ public class ExhibitListActivity extends SherlockFragmentActivity {
     }
 
     public void setActionBar() {
-      ActionBar actionBar = getActionBar();
-      actionBar.setDisplayHomeAsUpEnabled(true);
-      actionBar.setTitle(museumNickname + " Exhibits");
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle(museumNickname + " Exhibits");
     }
 
     @Override
     public void onBackPressed() {
-      super.onBackPressed();
-      overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
     private void loadFragment() {
@@ -107,12 +110,24 @@ public class ExhibitListActivity extends SherlockFragmentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-          case android.R.id.home:
-            // app icon in action bar clicked; goto parent activity.
-            this.finish();
-            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-            return true;
+            case android.R.id.home:
+                // app icon in action bar clicked; goto parent activity.
+                this.finish();
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Programmatically change default search icon since cannot do it through xml
+        MenuItem searchViewMenuItem = menu.findItem(R.id.menu_search_exhibits);
+        SearchView searchView = (SearchView) searchViewMenuItem.getActionView();
+        int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
+        ImageView v = (ImageView) searchView.findViewById(searchImgId);
+        v.setImageResource(R.drawable.icon_search);
+        return super.onPrepareOptionsMenu(menu);
     }
 }
