@@ -197,7 +197,7 @@ public class LoginActivity extends FragmentActivity
     public void setActionBar() {
         ActionBar actionBar = getActionBar();
       /*
-        String title = "<font color=\""+getResources().getColor(R.color.actionbar_title_color)+"\">Log In</font>";
+        String title = "<font color=\""+getResources().getColor(R.color.custom_gray)+"\">Log In</font>";
         actionBar.setTitle(Html.fromHtml(title));
        */
         actionBar.setDisplayHomeAsUpEnabled(true);

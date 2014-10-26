@@ -14,7 +14,9 @@ import com.codepath.columbus.columbus.models.Comment;
 import com.codepath.columbus.columbus.utils.DateExtension;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by marc on 10/14/14.
@@ -61,8 +63,7 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
     ImageLoader imageLoader = ImageLoader.getInstance();
     imageLoader.displayImage(comment.getGoogleUserAvatarUrl(), viewHolder.ivProfile);
     viewHolder.tvUsername.setText(comment.getName());
-    DateExtension commentDate = new DateExtension(comment.getCreatedAt());
-    viewHolder.tvCreatedAt.setText(commentDate.getRelativeTimeAgo(Comment.createdAtFormat));
+    viewHolder.tvCreatedAt.setText(comment.getParsedCreatedAt());
     viewHolder.tvComment.setText(comment.getCommentBody());
     viewHolder.rbRating.setRating(comment.getRating());
 

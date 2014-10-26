@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 
 import com.codepath.columbus.columbus.R;
@@ -29,6 +30,7 @@ public class ExhibitCommentsFragment extends ExhibitFragment {
 
   // UI Elements
   private ListView lvComments;
+  private FrameLayout flEmptyComments;
 
   public static ExhibitCommentsFragment newInstance(Exhibit exhibit) {
     ExhibitCommentsFragment fragment = new ExhibitCommentsFragment();
@@ -50,6 +52,7 @@ public class ExhibitCommentsFragment extends ExhibitFragment {
                            Bundle savedInstanceState) {
     // Inflate the layout for this fragment
     View view = inflater.inflate(R.layout.fragment_exhibit_comments, container, false);
+    flEmptyComments = (FrameLayout) view.findViewById(R.id.flEmptyCommments);
     setCommentsListVew(view);
     fetchComments();
     return view;
@@ -72,6 +75,7 @@ public class ExhibitCommentsFragment extends ExhibitFragment {
         if (e == null) {
           commentAdapter.clear();
           commentAdapter.addAll(results);
+          if (results.size() > 0) flEmptyComments.setVisibility(View.GONE);
         } else {
           e.printStackTrace();
         }
@@ -81,5 +85,6 @@ public class ExhibitCommentsFragment extends ExhibitFragment {
 
   public void addComment(Comment comment) {
     commentAdapter.insert(comment, 0);
+    flEmptyComments.setVisibility(View.GONE);
   }
 }

@@ -7,6 +7,8 @@ import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseRelation;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -16,6 +18,7 @@ import java.util.Date;
 public class Comment extends ParseObject {
 
   public static String createdAtFormat = "EEE MMM dd HH:mm:ss ZZZZ yyyy";
+  public static String createdAtDisplayFormat = "MMMM y";
 
   private String name;
 
@@ -71,5 +74,11 @@ public class Comment extends ParseObject {
 
   public void setExhibit(Exhibit exhibit) {
     put("exhibit", exhibit);
+  }
+
+  public String getParsedCreatedAt() {
+    SimpleDateFormat formatter = new SimpleDateFormat(createdAtDisplayFormat);
+    Date date = this.getCreatedAt();
+    return formatter.format(date);
   }
 }

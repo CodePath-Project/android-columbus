@@ -25,7 +25,7 @@
     android:layout_alignParentLeft="true"
     android:layout_alignParentStart="true"
     android:numStars="5"
-    android:progressDrawable="@drawable/ratingbar_custom"
+    android:progressDrawable="@drawable/ratingbar_custom_big"
     android:layout_marginTop="10dp"/>
 
   <TextView
