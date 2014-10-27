@@ -244,6 +244,7 @@ public class ExhibitListFragment extends SherlockFragment {
                     updateDistanceForBeacon(rangedBeacon);
                 }
                 aExhibits.notifyDataSetChanged();
+                Collections.sort(exhibits, new ExhibitDistanceComparator());
             }
         });
     }

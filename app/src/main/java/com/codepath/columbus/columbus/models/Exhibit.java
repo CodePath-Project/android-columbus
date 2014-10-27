@@ -92,6 +92,7 @@ public class Exhibit extends ParseObject implements Parcelable {
     ArrayList<String> images = new ArrayList<String>();
     images.add("http://upload.wikimedia.org/wikipedia/commons/8/89/Field_Museum_of_Natural_History.jpg");
     exhibit.setImageUrls(images);
+    exhibit.setDistance(distance);
     return exhibit;
   }
 
