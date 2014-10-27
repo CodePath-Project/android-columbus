@@ -91,13 +91,36 @@ public class LoginActivity extends FragmentActivity
         setContentView(R.layout.activity_login);
 
         btSignIn = (SignInButton)findViewById(R.id.btSignIn);
-        setGooglePlusButtonText("Sign In");
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences( this);
+        final boolean signedIn = prefs.getBoolean("signedIn",false);
+        if (signedIn) {
+            setGooglePlusButtonText("Sign Out");
+        }else{
+            setGooglePlusButtonText("Sign In");
+        }
+
         btSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!mGoogleApiClient.isConnecting()) {
-                    mSignInClicked = true;
-                    resolveSignInError();
+                if (!signedIn) {
+                    if (!mGoogleApiClient.isConnecting()) {
+                        mSignInClicked = true;
+                        resolveSignInError();
+                    }
+                }else{
+                    // disconnect
+                    if (mGoogleApiClient.isConnected()) {
+                        Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+                        // Note: revoking the access/signing out - not needed for real scenarios
+                        Plus.AccountApi.revokeAccessAndDisconnect(mGoogleApiClient);
+                    }
+
+                    // clear the prefs- TODO - login only
+                    PreferenceManager.getDefaultSharedPreferences(LoginActivity.this).edit().clear().commit();
+
+                    finish();
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 }
             }
         });
@@ -177,9 +200,10 @@ public class LoginActivity extends FragmentActivity
                 edit.putString("username",personName);
                 edit.putString("imageURL",personPhotoUrl);
                 edit.putString("email",email);
+                edit.putBoolean("signedIn",true);
                 edit.commit();
 
-                Toast.makeText(this, "Hello "+personName, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Hello "+personName, Toast.LENGTH_SHORT).show();
                 Log.d("LoginActivity","username:"+personName);
                 Log.d("LoginActivity","imageURL:"+personPhotoUrl);
                 Log.d("LoginActivity","email:"+email);
