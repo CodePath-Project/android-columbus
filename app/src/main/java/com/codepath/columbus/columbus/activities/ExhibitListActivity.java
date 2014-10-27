@@ -6,23 +6,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.Html;
 import android.util.Log;
-
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.MenuInflater;
-
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
-import android.widget.Toast;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.codepath.columbus.columbus.R;
 import com.codepath.columbus.columbus.fragments.exhibit_list.ExhibitListFragment;
 import com.codepath.columbus.columbus.fragments.exhibit_list.ExhibitListSearchFragment;
-import com.codepath.columbus.columbus.models.Exhibit;
+import com.codepath.columbus.columbus.utils.DrawMenuItemAvatar;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -33,6 +29,8 @@ public class ExhibitListActivity extends SherlockFragmentActivity {
 
     private String museumNickname;
     private String museumId;
+
+    private MenuItem loginItem;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -105,6 +103,9 @@ public class ExhibitListActivity extends SherlockFragmentActivity {
                 return false;
             }
         });
+
+        loginItem = menu.findItem(R.id.action_login);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -143,6 +144,11 @@ public class ExhibitListActivity extends SherlockFragmentActivity {
                 this.finish();
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 return true;
+            case R.id.action_login:
+                Intent i = new Intent(this,LoginActivity.class);
+                startActivity(i);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -156,6 +162,15 @@ public class ExhibitListActivity extends SherlockFragmentActivity {
         int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
         ImageView v = (ImageView) searchView.findViewById(searchImgId);
         v.setImageResource(R.drawable.icon_search);
+
+        DrawMenuItemAvatar.drawAvatar(this, loginItem);
         return super.onPrepareOptionsMenu(menu);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DrawMenuItemAvatar.drawAvatar(this, loginItem);
     }
 }

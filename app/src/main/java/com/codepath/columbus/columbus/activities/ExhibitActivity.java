@@ -25,6 +25,7 @@ import com.codepath.columbus.columbus.fragments.exhibit.ExhibitHeaderFragment;
 import com.codepath.columbus.columbus.models.Comment;
 import com.codepath.columbus.columbus.models.Exhibit;
 import com.codepath.columbus.columbus.services.MusicService;
+import com.codepath.columbus.columbus.utils.DrawMenuItemAvatar;
 import com.codepath.columbus.columbus.utils.MusicController;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -53,6 +54,8 @@ public class ExhibitActivity extends SherlockFragmentActivity implements MediaPl
   private boolean paused = false;
 
   private static int CREATE_COMMENT_REQUEST = 1;
+
+  private MenuItem loginItem;
 
   @Override
   protected void attachBaseContext(Context newBase) {
@@ -85,6 +88,8 @@ public class ExhibitActivity extends SherlockFragmentActivity implements MediaPl
       setController();
       paused = false;
     }
+
+    DrawMenuItemAvatar.drawAvatar(this, loginItem);
   }
 
   @Override
@@ -158,8 +163,15 @@ public class ExhibitActivity extends SherlockFragmentActivity implements MediaPl
   public boolean onCreateOptionsMenu(Menu menu) {
     // Inflate the menu; this adds items to the action bar if it is present.
     getSupportMenuInflater().inflate(R.menu.exhibit, menu);
+    loginItem = menu.findItem(R.id.action_login);
     return true;
   }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        DrawMenuItemAvatar.drawAvatar(this, loginItem);
+        return super.onPrepareOptionsMenu(menu);
+    }
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
@@ -177,6 +189,11 @@ public class ExhibitActivity extends SherlockFragmentActivity implements MediaPl
         // app icon in action bar clicked; goto parent activity.
         this.finish();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        return true;
+      case R.id.action_login:
+        Intent i = new Intent(this,LoginActivity.class);
+        startActivity(i);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         return true;
     }
     return super.onOptionsItemSelected(item);
@@ -335,4 +352,6 @@ public class ExhibitActivity extends SherlockFragmentActivity implements MediaPl
   public int getAudioSessionId() {
     return 0;
   }
+
+
 }

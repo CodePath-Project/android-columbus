@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.columbus.columbus.R;
@@ -45,6 +46,8 @@ public class LoginActivity extends FragmentActivity
 
     /* Request code used to invoke sign in user interactions. */
     private static final int RC_SIGN_IN = 0;
+
+    private SignInButton btSignIn;
 
     @Override
     public void onBackPressed() {
@@ -87,7 +90,8 @@ public class LoginActivity extends FragmentActivity
 
         setContentView(R.layout.activity_login);
 
-        SignInButton btSignIn = (SignInButton)findViewById(R.id.btSignIn);
+        btSignIn = (SignInButton)findViewById(R.id.btSignIn);
+        setGooglePlusButtonText("Sign In");
         btSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -156,6 +160,7 @@ public class LoginActivity extends FragmentActivity
         // access Google APIs on behalf of the user.
         mSignInClicked=false;
         setProfileInformation();
+        setGooglePlusButtonText("Sign Out");
     }
 
     private void setProfileInformation() {
@@ -196,10 +201,13 @@ public class LoginActivity extends FragmentActivity
 
     public void setActionBar() {
         ActionBar actionBar = getActionBar();
-      /*
-        String title = "<font color=\""+getResources().getColor(R.color.custom_gray)+"\">Log In</font>";
-        actionBar.setTitle(Html.fromHtml(title));
-       */
         actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    protected void setGooglePlusButtonText(String buttonText) {
+        View v = btSignIn.getChildAt(0);
+        TextView mTextView = (TextView) v;
+        mTextView.setText(buttonText);
+        mTextView.setPadding(0,0,5,0);
     }
 }

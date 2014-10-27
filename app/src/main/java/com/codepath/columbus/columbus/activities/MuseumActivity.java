@@ -2,22 +2,15 @@ package com.codepath.columbus.columbus.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
-import android.view.View;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.codepath.columbus.columbus.R;
 import com.codepath.columbus.columbus.adapters.MuseumPagerAdapter;
-import com.codepath.columbus.columbus.utils.RoundedAvatarDrawable;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.codepath.columbus.columbus.utils.DrawMenuItemAvatar;
 import com.viewpagerindicator.TabPageIndicator;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -36,8 +29,15 @@ public class MuseumActivity extends SherlockFragmentActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.museum, menu);
-        loginItem = menu.getItem(0);
-        return super.onCreateOptionsMenu(menu);
+        loginItem = menu.findItem(R.id.action_login);
+
+     return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        DrawMenuItemAvatar.drawAvatar(this,loginItem);
+        return true;
     }
 
     @Override
@@ -69,35 +69,6 @@ public class MuseumActivity extends SherlockFragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        // set the profile image if signed in
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String imageURL = sharedPreferences.getString("imageURL",null);
-
-        if (loginItem != null) {
-            if (imageURL != null) {
-                // by default the profile url gives 50x50 px image only
-                imageURL = imageURL.substring(0, imageURL.length() - 2) + 80;
-
-                // set the profile image
-                ImageLoader.getInstance().loadImage(imageURL, new ImageLoadingListener() {
-                    public void onLoadingStarted(String imageUri, View view) {
-                    }
-
-                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                    }
-
-                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        loginItem.setIcon(new RoundedAvatarDrawable(loadedImage));
-                    }
-
-                    public void onLoadingCancelled(String imageUri, View view) {
-                    }
-                });
-            } else {
-                // if not signed in
-                loginItem.setIcon(getResources().getDrawable(R.drawable.ic_login));
-            }
-        }
+        DrawMenuItemAvatar.drawAvatar(this,loginItem);
     }
 }
