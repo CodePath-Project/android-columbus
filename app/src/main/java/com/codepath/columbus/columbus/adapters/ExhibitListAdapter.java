@@ -65,15 +65,16 @@ public class ExhibitListAdapter extends ArrayAdapter<Exhibit> implements StickyL
         imageLoader.displayImage(exhibit.getImageUrls().get(0), viewHolder.ivExhibitImage);
         viewHolder.tvExhibitTitle.setText(exhibit.getName());
         viewHolder.tvExhibitShortDesc.setText(exhibit.getDescriptionShort());
+        viewHolder.tvDistance.setVisibility(View.GONE);
+    /*
         if(exhibit.getDistance() == 0) {
             viewHolder.tvDistance.setVisibility(View.GONE);
         } else {
-            /*
             viewHolder.tvDistance.setVisibility(View.VISIBLE);
             //viewHolder.tvDistance.setText(Double.toString(exhibit.getDistance()) + " m");
             viewHolder.tvDistance.setText("In close proximity");
-            */
         }
+    */
 
         return convertView;
     }

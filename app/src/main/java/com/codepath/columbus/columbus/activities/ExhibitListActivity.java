@@ -85,12 +85,23 @@ public class ExhibitListActivity extends SherlockFragmentActivity {
         searchView.setOnQueryTextListener(new OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                loadSearchFragment(query);
+                if(query.length() > 0) {
+                    loadSearchFragment(query);
+                }
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                //Toast.makeText(ExhibitListActivity.this, "on close called", Toast.LENGTH_SHORT).show();
+                removeSearchFragment();
                 return false;
             }
         });
@@ -107,18 +118,27 @@ public class ExhibitListActivity extends SherlockFragmentActivity {
         ft.commit();
     }
 
+    // return true to indicate search fragment was removed
+    // false indicates fragment not present, or not visible
+    private boolean removeSearchFragment() {
+        ExhibitListSearchFragment exhibitSearchFrag = (ExhibitListSearchFragment)
+                getSupportFragmentManager().findFragmentByTag("SearchFragment");
+        if(exhibitSearchFrag != null && exhibitSearchFrag.isVisible()) {
+            getSupportFragmentManager().popBackStack();
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
             case android.R.id.home:
-                ExhibitListSearchFragment exhibitSearchFrag = (ExhibitListSearchFragment)
-                        getSupportFragmentManager().findFragmentByTag("SearchFragment");
-                if(exhibitSearchFrag != null && exhibitSearchFrag.isVisible()) {
-                    Toast.makeText(this, "search showing", Toast.LENGTH_SHORT).show();
-                    getSupportFragmentManager().popBackStack();
+                if(removeSearchFragment()) {
                     return true;
                 }
+
                 // app icon in action bar clicked; goto parent activity.
                 this.finish();
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);

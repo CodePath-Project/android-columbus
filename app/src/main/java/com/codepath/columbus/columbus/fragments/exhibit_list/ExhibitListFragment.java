@@ -131,7 +131,7 @@ public class ExhibitListFragment extends SherlockFragment {
             @Override
             public void onServiceReady() {
                 try {
-                    Toast.makeText(context, "Starting ranging", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "Starting ranging", Toast.LENGTH_SHORT).show();
                     beaconManager.startRanging(beaconsRegionToScan);
                 } catch (RemoteException e) {
                     Toast.makeText(context, "Cannot start ranging", Toast.LENGTH_LONG).show();
@@ -145,7 +145,7 @@ public class ExhibitListFragment extends SherlockFragment {
     public void onStop() {
         super.onStop();
         try {
-            Toast.makeText(context, "Stopping ranging", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "Stopping ranging", Toast.LENGTH_SHORT).show();
             beaconManager.stopRanging(beaconsRegionToScan);
         } catch (RemoteException e) {
             Log.e("ERROR", "Cannot stop but it does not matter now", e);
