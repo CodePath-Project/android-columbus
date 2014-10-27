@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.codepath.columbus.columbus.R;
 import com.codepath.columbus.columbus.activities.ExhibitListActivity;
-import com.codepath.columbus.columbus.models.Comment;
+import com.codepath.columbus.columbus.adapters.CustomMapInfoAdapter;
 import com.codepath.columbus.columbus.models.Museum;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
@@ -33,6 +33,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
@@ -79,6 +80,7 @@ public class MuseumMapFragment extends Fragment implements
         query.findInBackground(new FindCallback<Museum>() {
             @Override
             public void done(List<Museum> museums, ParseException e) {
+
                 for (final Museum museum : museums) {
                     Marker mapMarker = map.addMarker(new MarkerOptions()
                             .position(new LatLng(museum.getLocation().getLatitude(),
@@ -86,17 +88,21 @@ public class MuseumMapFragment extends Fragment implements
                             .title(museum.getName())
                             .icon(defaultMarker));
 
+                    if (museums.get(0).equals(museum)) {
+                        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(museum.getLocation().getLatitude(),
+                                museum.getLocation().getLongitude()), 12);
+                        map.animateCamera(cameraUpdate);
+                    }
+
                     // setting the info window click listener on the Museum
                        map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                            @Override
                            public void onInfoWindowClick(Marker marker) {
-                               Intent i = new Intent(getActivity(), ExhibitListActivity.class);
-                               i.putExtra("museumId",museum.getObjectId());
-                               i.putExtra("museumUUID",museum.getBeaconUUID());
-                               i.putExtra("museumNickname",museum.getNickname());
-                               getActivity().startActivity(i);
-                           }
+                               fetchMuseumInfoFromParse(marker.getTitle());
+                            }
                        });
+
+                    map.setInfoWindowAdapter(new CustomMapInfoAdapter(getActivity(),museum,getLayoutInflater(null)));
                 }
             }
         });
@@ -179,7 +185,7 @@ public class MuseumMapFragment extends Fragment implements
         if (location != null) {
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
-            map.animateCamera(cameraUpdate);
+           // map.animateCamera(cameraUpdate);
         } else {
             Toast.makeText(this.getActivity(), "Enable GPS", Toast.LENGTH_SHORT).show();
         }
@@ -248,5 +254,21 @@ public class MuseumMapFragment extends Fragment implements
         }
     }
 
+    private void fetchMuseumInfoFromParse(String museumName) {
+        ParseQuery<Museum> query = ParseQuery.getQuery(Museum.class);
+        // First try to find from the cache and only then go to network
+        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK); // or CACHE_ONLY
+        query.whereEqualTo("name", museumName);
+        query.getFirstInBackground(new GetCallback<Museum>() {
+            @Override
+            public void done(Museum museum, ParseException e) {
+                Intent i = new Intent(getActivity(), ExhibitListActivity.class);
+                i.putExtra("museumId",museum.getObjectId());
+                i.putExtra("museumUUID",museum.getBeaconUUID());
+                i.putExtra("museumNickname",museum.getNickname());
+                getActivity().startActivity(i);
+            }
+        });
+    }
 
 }
