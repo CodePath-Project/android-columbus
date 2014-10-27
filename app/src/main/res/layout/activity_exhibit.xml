@@ -55,7 +55,7 @@
     <TextView
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:textAppearance="?android:attr/textAppearanceSmall"
+      android:textAppearance="@style/MyCustomTheme.TextAppearance.Small.Circular"
       android:text="@string/media_player_loading"
       android:id="@+id/tvLoadingMediaPlayer"
       android:layout_gravity="center_horizontal"/>

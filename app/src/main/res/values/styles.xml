@@ -108,6 +108,12 @@
       <item name="android:textColor">@color/custom_gray</item>
     </style>
 
+    <style name="MyCustomTheme.TextAppearance.Small.Circular" parent="android:TextAppearance.Small">
+      <item name="fontPath">fonts/CircularStd-Book.otf</item>
+      <item name="android:textSize">12sp</item>
+      <item name="android:textColor">@color/custom_gray</item>
+    </style>
+
 
 
 </resources>
