@@ -72,7 +72,7 @@ public class MuseumMapFragment extends Fragment implements
         }
 
         final BitmapDescriptor defaultMarker =
-                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+                BitmapDescriptorFactory.fromResource(R.drawable.ic_map_marker);
 
         ParseQuery<Museum> query = ParseQuery.getQuery(Museum.class);
         // First try to find from the cache and only then go to network
