@@ -11,6 +11,7 @@ import android.os.IBinder;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.MediaController.MediaPlayerControl;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -33,7 +34,7 @@ import com.parse.ParseQuery;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class ExhibitActivity extends SherlockFragmentActivity implements MediaPlayerControl, MusicService.MusicServiceCallbacks {
+public class ExhibitActivity extends SherlockFragmentActivity implements MediaPlayerControl, MusicService.MusicServiceCallbacks, ExhibitHeaderFragment.OnButtonClicked {
 
   // Fragments
   private ExhibitHeaderFragment headerFragment;
@@ -180,18 +181,13 @@ public class ExhibitActivity extends SherlockFragmentActivity implements MediaPl
     // as you specify a parent activity in AndroidManifest.xml.
     int id = item.getItemId();
     switch (id) {
-      case R.id.menu_item_create_comment:
-        // Launch the add comment intent
-        launchCreateCommentActivity();
-        return true;
-
       case android.R.id.home:
         // app icon in action bar clicked; goto parent activity.
         this.finish();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         return true;
       case R.id.action_login:
-        Intent i = new Intent(this,LoginActivity.class);
+        Intent i = new Intent(this, LoginActivity.class);
         startActivity(i);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         return true;
@@ -205,7 +201,7 @@ public class ExhibitActivity extends SherlockFragmentActivity implements MediaPl
     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
   }
 
-  private void launchCreateCommentActivity() {
+  public void onComposeClicked() {
     Intent intent = new Intent(this, ExhibitCreateCommentActivity.class);
     intent.putExtra("exhibitId", exhibitId);
     intent.putExtra("exhibitName", exhibitName);
