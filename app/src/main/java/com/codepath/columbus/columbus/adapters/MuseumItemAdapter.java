@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -17,6 +16,8 @@ import android.widget.TextView;
 import com.codepath.columbus.columbus.R;
 import com.codepath.columbus.columbus.activities.ExhibitListActivity;
 import com.codepath.columbus.columbus.models.Museum;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
@@ -60,25 +61,14 @@ public class MuseumItemAdapter extends ArrayAdapter<Museum> {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getContext(), ExhibitListActivity.class);
-                i.putExtra("museumId",museum.getObjectId());
-                i.putExtra("museumUUID",museum.getBeaconUUID());
-                i.putExtra("museumNickname",museum.getNickname());
+                i.putExtra("museumId", museum.getObjectId());
+                i.putExtra("museumUUID", museum.getBeaconUUID());
+                i.putExtra("museumNickname", museum.getNickname());
                 activity.startActivity(i);
                 activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 
-        viewHolder.llMuseum.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN) {
-                    view.setAlpha(0.8f);
-                }else {
-                    view.setAlpha(1f);
-                }
-                return false;
-            }
-        });
 
         ImageLoader.getInstance().loadImage(museum.getImageUrl(), new ImageLoadingListener() {
             public void onLoadingStarted(String imageUri, View view) {
@@ -98,6 +88,11 @@ public class MuseumItemAdapter extends ArrayAdapter<Museum> {
         });
 
         viewHolder.tvMuseumName.setText(museum.getName());
+
+        YoYo.with(Techniques.SlideInLeft)
+                .duration(1000)
+                .playOn(viewHolder.tvMuseumName);
+
         return convertView;
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.codepath.columbus.columbus" >
 
     <uses-permission android:name="com.codepath.columbus.columbus.permission.MAPS_RECEIVE" />
@@ -30,6 +31,7 @@
         android:required="true" />
 
     <application
+        tools:replace="android:icon,android:theme"
         android:name=".ColumbusApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher_hollow"

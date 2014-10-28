@@ -2,7 +2,6 @@ package com.codepath.columbus.columbus.adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +13,8 @@ import android.widget.TextView;
 
 import com.codepath.columbus.columbus.R;
 import com.codepath.columbus.columbus.models.Exhibit;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -57,6 +58,13 @@ public class ExhibitListAdapter extends ArrayAdapter<Exhibit> implements StickyL
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
+        YoYo.with(Techniques.SlideInLeft)
+                .duration(1000)
+                .playOn(viewHolder.tvExhibitTitle);
+        YoYo.with(Techniques.SlideInRight)
+                .duration(1000)
+                .playOn(viewHolder.tvExhibitShortDesc);
+
         // Clear recycled view
         viewHolder.ivExhibitImage.setImageResource(0);
 
@@ -98,9 +106,9 @@ public class ExhibitListAdapter extends ArrayAdapter<Exhibit> implements StickyL
         String headerText;
         Exhibit item = exhibitsList.get(position);
         if(item.getDistance() > 0) {
-            headerText = "Nearby items";
+            headerText = "Nearby Items";
         } else {
-            headerText = "All items";
+            headerText = "All Items";
         }
 
         holder.text.setText(headerText);
