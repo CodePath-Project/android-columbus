@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.bluetooth.BluetoothAdapter;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.codepath.columbus.columbus.R;
@@ -53,6 +54,8 @@ public class ExhibitListFragment extends SherlockFragment {
     private PullToRefreshLayout mPullToRefreshLayout;
     private static boolean refresh;
 
+    private static final int REQUEST_ENABLE_BT = 101;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +74,7 @@ public class ExhibitListFragment extends SherlockFragment {
             // Results are not delivered on UI thread.
             @Override
             public void onBeaconsDiscovered(Region region, final List<Beacon> beacons) {
-                if(refresh) {
+                if (refresh) {
                     Log.i("INFO", "Ranged beacons: " + beacons);
                     updateDistances(beacons);
                     refresh = false;
@@ -121,11 +124,17 @@ public class ExhibitListFragment extends SherlockFragment {
 
         // TODO: allow enabling bluetooth using intents
         if (!beaconManager.isBluetoothEnabled()) {
-            Toast.makeText(context, "Please enable bluetooth to see nearest exhibit data", Toast.LENGTH_LONG).show();
+            Intent i = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(i, REQUEST_ENABLE_BT);
             return;
         }
+        connectToService();
+    }
 
-        getActivity().getActionBar().setSubtitle("Scanning...");
+
+    private void connectToService() {
+        //getActivity().getActionBar().setSubtitle("Scanning...");
+        Log.i("INFO", "Scanning...");
         // reset beacons list
         beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
             @Override
@@ -140,6 +149,21 @@ public class ExhibitListFragment extends SherlockFragment {
             }
         });
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_ENABLE_BT) {
+            if (resultCode == Activity.RESULT_OK) {
+                connectToService();
+            } else {
+                Toast.makeText(context, "Bluetooth not enabled", Toast.LENGTH_LONG).show();
+                //getActivity().getActionBar().setSubtitle("Bluetooth not enabled");
+                Log.i("INFO", "Bluetooth not enabled");
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
 
     @Override
     public void onStop() {
@@ -176,7 +200,7 @@ public class ExhibitListFragment extends SherlockFragment {
     }
 
     private void setupOnRefreshListener(View v) {
-        mPullToRefreshLayout = (PullToRefreshLayout)v.findViewById(R.id.layout_exhibit_list);
+        mPullToRefreshLayout = (PullToRefreshLayout) v.findViewById(R.id.layout_exhibit_list);
 
         // Now setup the PullToRefreshLayout
         ActionBarPullToRefresh.from(getActivity())
@@ -233,10 +257,11 @@ public class ExhibitListFragment extends SherlockFragment {
             @Override
             public void run() {
                 // Beacons reported here are already sorted by estimated distance between device and beacon.
-                getActivity().getActionBar().setSubtitle("Found beacons: " + beacons.size());
+                //getActivity().getActionBar().setSubtitle("Found beacons: " + beacons.size());
+                Log.i("INFO", "Found beacons: " + beacons.size());
 
                 // reset distance of each beacon to zero
-                for(Exhibit exhibit: exhibits) {
+                for (Exhibit exhibit : exhibits) {
                     exhibit.setDistance(0);
                 }
                 // update distance based on discovery
@@ -253,7 +278,7 @@ public class ExhibitListFragment extends SherlockFragment {
         // find the exhibit this beacon matches
         String beaconID = beacon.getProximityUUID() + ":" + beacon.getMajor() + ":" + beacon.getMinor();
         Exhibit exhibit = findExhibitByBeaconId(beaconID);
-        if(exhibit != null) {
+        if (exhibit != null) {
             double distance = Utils.computeAccuracy(beacon);
             Log.i("INFO", "distance is " + distance);
             exhibit.setDistance(distance);
@@ -262,8 +287,8 @@ public class ExhibitListFragment extends SherlockFragment {
 
 
     private Exhibit findExhibitByBeaconId(String beaconID) {
-        for(Exhibit exhibit: exhibits) {
-            if(exhibit.getBeaconId() != null) {
+        for (Exhibit exhibit : exhibits) {
+            if (exhibit.getBeaconId() != null) {
                 Log.i("INFO", "comparing with " + exhibit.getBeaconId());
                 if (exhibit.getBeaconId().equalsIgnoreCase(beaconID)) {
                     return exhibit;
