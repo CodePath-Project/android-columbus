@@ -73,6 +73,7 @@ public class MuseumItemAdapter extends ArrayAdapter<Museum> {
         ImageLoader.getInstance().loadImage(museum.getImageUrl(), new ImageLoadingListener() {
             public void onLoadingStarted(String imageUri, View view) {
                 // show the progress bar
+                viewHolder.llMuseum.setBackground(activity.getResources().getDrawable(R.drawable.custom_image_placeholder));
             }
 
             public void onLoadingFailed(String imageUri, View view, FailReason failReason) {

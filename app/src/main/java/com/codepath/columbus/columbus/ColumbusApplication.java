@@ -52,6 +52,7 @@ public class ColumbusApplication extends Application{
 
   public static void initImageLoader(Context context) {
     DisplayImageOptions options = new DisplayImageOptions.Builder()
+                                      .showImageOnLoading(R.drawable.custom_image_placeholder)
                                       .showImageForEmptyUri(R.drawable.ic_launcher_hollow) // TODO: Change this
                                       .showImageOnFail(R.drawable.ic_error).resetViewBeforeLoading() // TODO: Change this
                                       .cacheOnDisc().imageScaleType(ImageScaleType.EXACTLY)
