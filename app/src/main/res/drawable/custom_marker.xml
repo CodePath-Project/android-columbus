@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:left="15dp" android:bottom="25dp" android:right="15dp" android:top="10dp">
+        <shape android:shape="rectangle" >
+            <gradient
+                android:startColor="#596b35"
+                android:type="linear"
+                android:endColor="#596b35"
+                android:angle="90"/>
+        </shape>
+    </item>
+    <item>
+            <bitmap android:src="@drawable/ic_map_marker" />
+    </item>
+</layer-list>

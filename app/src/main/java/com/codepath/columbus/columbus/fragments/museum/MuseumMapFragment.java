@@ -5,6 +5,9 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -72,7 +75,7 @@ public class MuseumMapFragment extends Fragment implements
         }
 
         final BitmapDescriptor defaultMarker =
-                BitmapDescriptorFactory.fromResource(R.drawable.ic_map_marker);
+                BitmapDescriptorFactory.fromBitmap(drawableToBitmap(getResources().getDrawable(R.drawable.custom_marker)));
 
         ParseQuery<Museum> query = ParseQuery.getQuery(Museum.class);
         // First try to find from the cache and only then go to network
@@ -271,4 +274,11 @@ public class MuseumMapFragment extends Fragment implements
         });
     }
 
+    public static Bitmap drawableToBitmap (Drawable drawable) {
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bitmap;
+    }
 }
