@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login_bg"
-    tools:context="com.codepath.columbus.columbus.fragments.SigninFragment">
+    android:background="@color/polar_bear"
+    >
 
     <LinearLayout
         android:id="@+id/llLogin"
@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:paddingTop="200dp"
+        android:paddingTop="100dp"
         android:paddingLeft="50dp"
         android:paddingRight="50dp"
         android:orientation="horizontal">
@@ -32,21 +32,35 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Columbus"
             android:textStyle="bold"
+            android:textColor="@color/reef"
             android:id="@+id/tvAppName"
             style="@style/ShadowText.Large"
             android:layout_gravity="center"
         />
       </LinearLayout>
 
+
+    <TextView
+        android:id="@+id/tvLoginBody1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llLogin"
+        android:paddingTop="40dp"
+        android:textAppearance="@style/MyCustomTheme.TextAppearance.Large.Circular"
+        android:text="@string/login_page_paragraph1"
+        android:layout_alignRight="@+id/btSignIn"
+        android:layout_alignLeft="@+id/btSignIn" />
+
     <com.google.android.gms.common.SignInButton
         android:id="@+id/btSignIn"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="80dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:paddingTop="50dp"
         android:paddingBottom="50dp"
-        android:layout_below="@+id/llLogin"
+        android:layout_below="@+id/tvLoginBody1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>

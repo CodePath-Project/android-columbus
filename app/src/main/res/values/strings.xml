@@ -4,7 +4,7 @@
     <string name="app_name">Columbus</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="action_login">Log In</string>
+    <string name="action_login">Sign In</string>
     <string name="title_activity_exhibit">ExhibitActivity</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_exhibit_list">ExhibitListActivity</string>
@@ -26,5 +26,6 @@
     <string name="create_comment_leave_comment">What do you think about this exhibit?</string>
     <string name="title_activity_search">SearchActivity</string>
     <string name="comments_empty_default_text">There is no comments yet.\n\nWhat are you waiting\nto add the first one?!</string>
+    <string name="login_page_paragraph1">Please sign-in to post your comments. We will not post things without your permission.</string>
 
 </resources>

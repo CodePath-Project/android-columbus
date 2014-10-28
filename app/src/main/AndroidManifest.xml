@@ -50,8 +50,7 @@
         </activity>
         <activity
             android:name=".activities.LoginActivity"
-            android:label=""
-            android:theme="@style/TransparentActionBarTheme" >
+            android:label="@string/action_login">
         </activity>
         <activity
             android:name=".activities.MuseumActivity"
