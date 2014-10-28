@@ -16,8 +16,6 @@ import android.widget.TextView;
 import com.codepath.columbus.columbus.R;
 import com.codepath.columbus.columbus.activities.ExhibitListActivity;
 import com.codepath.columbus.columbus.models.Museum;
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
@@ -69,6 +67,8 @@ public class MuseumItemAdapter extends ArrayAdapter<Museum> {
             }
         });
 
+        viewHolder.tvMuseumName.setText(museum.getName());
+
 
         ImageLoader.getInstance().loadImage(museum.getImageUrl(), new ImageLoadingListener() {
             public void onLoadingStarted(String imageUri, View view) {
@@ -86,12 +86,6 @@ public class MuseumItemAdapter extends ArrayAdapter<Museum> {
             public void onLoadingCancelled(String imageUri, View view) {
             }
         });
-
-        viewHolder.tvMuseumName.setText(museum.getName());
-
-        YoYo.with(Techniques.SlideInLeft)
-                .duration(1000)
-                .playOn(viewHolder.tvMuseumName);
 
         return convertView;
     }

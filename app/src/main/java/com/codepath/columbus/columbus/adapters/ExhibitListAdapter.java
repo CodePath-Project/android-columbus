@@ -13,8 +13,6 @@ import android.widget.TextView;
 
 import com.codepath.columbus.columbus.R;
 import com.codepath.columbus.columbus.models.Exhibit;
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -57,13 +55,6 @@ public class ExhibitListAdapter extends ArrayAdapter<Exhibit> implements StickyL
         else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-
-        YoYo.with(Techniques.SlideInLeft)
-                .duration(1000)
-                .playOn(viewHolder.tvExhibitTitle);
-        YoYo.with(Techniques.SlideInRight)
-                .duration(1000)
-                .playOn(viewHolder.tvExhibitShortDesc);
 
         // Clear recycled view
         viewHolder.ivExhibitImage.setImageResource(0);
