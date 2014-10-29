@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
@@ -26,6 +27,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class ExhibitListActivity extends SherlockFragmentActivity {
     private ExhibitListFragment exhibitListFragment;
     private ExhibitListSearchFragment exhibitListSearchFragment;
+    private SearchView searchView;
 
     private String museumNickname;
     private String museumId;
@@ -61,8 +63,13 @@ public class ExhibitListActivity extends SherlockFragmentActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        if(searchView.getVisibility() == View.VISIBLE) {
+            searchView.setQuery("", false);
+            searchView.setIconified(true);
+        } else {
+            super.onBackPressed();
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        }
     }
 
     private void loadFragment() {
@@ -78,7 +85,7 @@ public class ExhibitListActivity extends SherlockFragmentActivity {
         MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.exhibit_list, menu);
         MenuItem searchItem = menu.findItem(R.id.menu_search_exhibits);
-        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView = (SearchView) searchItem.getActionView();
         searchView.setQueryHint("Search");
         searchView.setOnQueryTextListener(new OnQueryTextListener() {
             @Override
@@ -137,6 +144,8 @@ public class ExhibitListActivity extends SherlockFragmentActivity {
         switch (id) {
             case android.R.id.home:
                 if(removeSearchFragment()) {
+                    searchView.setQuery("", false);
+                    searchView.setIconified(true);
                     return true;
                 }
 
@@ -158,7 +167,9 @@ public class ExhibitListActivity extends SherlockFragmentActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         // Programmatically change default search icon since cannot do it through xml
         MenuItem searchViewMenuItem = menu.findItem(R.id.menu_search_exhibits);
-        SearchView searchView = (SearchView) searchViewMenuItem.getActionView();
+        if(searchView == null) {
+            searchView = (SearchView) searchViewMenuItem.getActionView();
+        }
         int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
         ImageView v = (ImageView) searchView.findViewById(searchImgId);
         v.setImageResource(R.drawable.icon_search);
