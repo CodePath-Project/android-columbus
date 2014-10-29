@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -38,6 +39,7 @@ public class ExhibitListSearchFragment extends SherlockFragment {
     private String museumId;
     private String queryString;
     private Context context;
+    private ProgressBar spinner;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,9 @@ public class ExhibitListSearchFragment extends SherlockFragment {
         View v = inflater.inflate(R.layout.fragment_search_list, container, false);
         lvExhibitListSearch = (PtrStickyListHeadersListView) v.findViewById(R.id.lvExhibitListSearch);
         lvExhibitListSearch.setAdapter((se.emilsjolander.stickylistheaders.StickyListHeadersAdapter) aExhibits);
+
+        spinner = (ProgressBar) v.findViewById(R.id.pbSearch);
+        spinner.setVisibility(View.VISIBLE);
 
         setupListViewListeners();
         fetchExhibitsFromParse();
@@ -106,6 +111,7 @@ public class ExhibitListSearchFragment extends SherlockFragment {
                             .findInBackground(new FindCallback<Exhibit>() {
                                 @Override
                                 public void done(List<Exhibit> exhibits1, ParseException e) {
+                                    spinner.setVisibility(View.GONE);
                                     Log.i("INFO", "Found " + exhibits1.size() + " exhibits");
                                     aExhibits.clear();
                                     aExhibits.addAll(exhibits1);

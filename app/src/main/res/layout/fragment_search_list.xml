@@ -11,4 +11,12 @@
         android:id="@+id/lvExhibitListSearch"
         android:layout_gravity="center_horizontal" />
 
+    <ProgressBar
+        android:id="@+id/pbSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:layout_gravity="center_horizontal"/>
+
+
 </uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout>
