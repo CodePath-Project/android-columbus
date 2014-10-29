@@ -3,6 +3,7 @@ package com.codepath.columbus.columbus.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -106,6 +107,10 @@ public class ExhibitListAdapter extends ArrayAdapter<Exhibit> implements StickyL
         holder.text.setTextSize(18);
         holder.text.setTextColor(Color.parseColor("#ffffff"));
         holder.text.setBackgroundColor(Color.parseColor("#ff7077"));
+        holder.text.setPadding(20,0,0,0);
+
+        Typeface typeface = Typeface.createFromAsset(activity.getAssets(), "fonts/CircularStd-Medium.otf");
+        holder.text.setTypeface(typeface);
         return convertView;
     }
 
