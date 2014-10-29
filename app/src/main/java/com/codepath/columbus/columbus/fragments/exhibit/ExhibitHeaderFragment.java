@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -20,22 +21,26 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import butterknife.OnTouch;
 
 /**
  * A simple {@link Fragment} subclass.
  *
  */
-public class ExhibitHeaderFragment extends ExhibitFragment {
+public class ExhibitHeaderFragment extends ExhibitFragment implements ImageSlideAdapter.OnImageClickListener {
 
   // UI References
   @InjectView(R.id.view_pager) ViewPager viewPager;
   @InjectView(R.id.tvExhibitName) TextView tvExhibitName;
   @InjectView(R.id.btnAddComment) ImageButton btnAddComment;
 
+  ImageSlideAdapter imageAdapter;
+
   private OnButtonClicked listener;
   // Define the events that the fragment will use to communicate
   public interface OnButtonClicked {
     public void onComposeClicked();
+    public void onImageClicked(int currentPosition);
   }
 
   public static ExhibitHeaderFragment newInstance(Exhibit exhibit) {
@@ -85,15 +90,23 @@ public class ExhibitHeaderFragment extends ExhibitFragment {
   }
 
   public void setImageCarousel() {
+
     List<String> images = exhibit.getImageUrls();
 
     if (images != null && images.size() > 0) {
-      viewPager.setAdapter(new ImageSlideAdapter(activity, images));
+      imageAdapter = new ImageSlideAdapter(activity, images);
+      imageAdapter.onImageClickListener = this;
+      viewPager.setAdapter(imageAdapter);
     }
   }
 
   @OnClick (R.id.btnAddComment)
   public void onComposeClicked() {
     listener.onComposeClicked();
+  }
+
+  @Override
+  public void onImageClicked(int position) {
+    listener.onImageClicked(position);
   }
 }

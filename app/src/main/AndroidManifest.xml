@@ -67,6 +67,11 @@
             android:windowSoftInputMode="stateVisible" >
         </activity>
 
+        <activity
+          android:name=".activities.ExhibitImagesActivity"
+          android:theme="@android:style/Theme.Holo.NoActionBar">
+        </activity>
+
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyAe7RaLA6qp-nDLVyJuNV6XULDUD7kEjWk" />

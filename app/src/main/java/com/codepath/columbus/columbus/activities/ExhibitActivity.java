@@ -32,6 +32,8 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
+import java.util.List;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ExhibitActivity extends SherlockFragmentActivity implements MediaPlayerControl, MusicService.MusicServiceCallbacks, ExhibitHeaderFragment.OnButtonClicked {
@@ -206,6 +208,14 @@ public class ExhibitActivity extends SherlockFragmentActivity implements MediaPl
     intent.putExtra("exhibitId", exhibitId);
     intent.putExtra("exhibitName", exhibitName);
     startActivityForResult(intent, CREATE_COMMENT_REQUEST);
+    overridePendingTransition(R.anim.slide_in_right, R.anim.zoom_out);
+  }
+
+  public void onImageClicked(int currentPosition) {
+    Intent intent = new Intent(this, ExhibitImagesActivity.class);
+    intent.putExtra("exhibitId", exhibitId);
+    intent.putExtra("imagePosition", currentPosition);
+    startActivity(intent);
     overridePendingTransition(R.anim.slide_in_right, R.anim.zoom_out);
   }
 

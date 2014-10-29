@@ -42,4 +42,5 @@ dependencies {
     compile 'com.daimajia.easing:library:1.0.0@aar'
     compile 'com.daimajia.androidanimations:library:1.1.2@aar'
     compile 'com.jakewharton:butterknife:6.0.0'
+    compile 'com.mcxiaoke.photoview:library:1.2.3'
 }

@@ -23,6 +23,12 @@ public class ImageSlideAdapter extends PagerAdapter {
   FragmentActivity activity;
   List<String> images;
 
+  public OnImageClickListener onImageClickListener;
+  // Define the events that the fragment will use to communicate
+  public interface OnImageClickListener {
+    public void onImageClicked(int position);
+  }
+
   public ImageSlideAdapter(FragmentActivity activity, List<String> images) {
     this.activity = activity;
     this.images = images;
@@ -35,12 +41,18 @@ public class ImageSlideAdapter extends PagerAdapter {
 
   @Override
   public View instantiateItem(ViewGroup container, final int position) {
-    LayoutInflater inflater = (LayoutInflater) activity
-                                                   .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+    LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
     View view = inflater.inflate(R.layout.image_carousel_item, container, false);
 
     ImageView mImageView = (ImageView) view.findViewById(R.id.image_display);
-
+    mImageView.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        if (onImageClickListener != null) {
+          onImageClickListener.onImageClicked(position);
+        }
+      }
+    });
 
     imageLoader.displayImage(images.get(position), mImageView);
     container.addView(view);
